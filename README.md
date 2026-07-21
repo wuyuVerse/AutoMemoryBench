@@ -77,15 +77,29 @@ write probes.
 
 ## Full dataset
 
-The sample is for smoke-testing. Public splits (`public_dev`, `public_test`,
-`audit`) are released separately; **hidden-test is withheld** to prevent
-overfitting. See `scripts/download_data.py` and `docs/DATA.md`.
+The sample is for smoke-testing. The three **public splits** ship with the repo
+as compressed shard archives under `data/full/` (via Git LFS): `audit_subset`
+(720 cases / 15,120 queries — the paper's main-results split), `public_dev`
+(1,440 / 30,240), and `public_test` (3,600 / 75,600). **hidden-test is withheld**
+to prevent overfitting.
 
 ```bash
-python scripts/download_data.py --split public_test --out data/
-amb evaluate-release-baseline --manifest data/<release>/manifest.json \
-  --split public_test --kind oracle_memory --output reports/pt_oracle.json
+# fetch the LFS archives (once), then unpack into an eval-ready release dir
+git lfs pull
+python scripts/prepare_data.py                 # all three public splits
+# or a single split:  python scripts/prepare_data.py --split audit_subset
+
+# evaluate on the full audit split (720 cases)
+amb evaluate-release-baseline \
+  --manifest data/full/release/manifest.json --split audit_subset \
+  --kind oracle_memory --task-judge-plugin deterministic_expected_behavior_v1 \
+  --output reports/audit_oracle.json
 ```
+
+Verified: on the full `audit_subset` (15,120 queries) `oracle_memory` scores
+task 1.00 / safety 1.00 / temporal 1.00, while `state_guard_memory` (privileged,
+contract-aware) scores task 0.14 at recall 0.58 — the recall-vs-compliance gap.
+See `docs/DATA.md`.
 
 ## Evaluate a real memory system
 

@@ -1,0 +1,37 @@
+# Environment / secrets
+.env
+*.bash
+configs/*.bash
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.venv-*/
+venv/
+
+# Per-system storage caches created at runtime
+.cache/
+amb/.cache/
+
+# Evaluation outputs
+reports/
+outputs/
+*.report.json
+
+# Full datasets (downloaded, not tracked). The small sample under
+# data/sample/ IS tracked; large splits go under data/releases/ and are ignored.
+data/releases/
+data/public_dev/
+data/public_test/
+data/audit/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

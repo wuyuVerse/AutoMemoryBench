@@ -1,0 +1,26 @@
+{
+  "provider": "mem0",
+  "system_id": "mem0_real_siliconflow",
+  "system_version": "mem0ai-0.1.115",
+  "client_factory": "amb.clients.mem0:create_client",
+  "client_kwargs": {
+    "venv_root": ".venv-mem0",
+    "api_key_env": "OPENAI_API_KEY",
+    "storage_root": ".cache/mem0_real_siliconflow",
+    "collection_name": "amst_mem0_real_siliconflow",
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_dims": 1024,
+    "omit_embedding_dimensions": true,
+    "llm_model": "deepseek-ai/DeepSeek-V3",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "mem0",
+    "package_name": "mem0ai",
+    "package_version": "0.1.115",
+    "client_factory": "amb.clients.mem0:create_client",
+    "credential_source": "OPENAI_API_KEY"
+  }
+}

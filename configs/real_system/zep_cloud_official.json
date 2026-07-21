@@ -1,0 +1,23 @@
+{
+  "provider": "zep_cloud",
+  "system_id": "zep_cloud_official",
+  "system_version": "official-zep-cloud-graph",
+  "client_factory": "amb.clients.zep_cloud:create_client",
+  "client_kwargs": {
+    "api_key_env": "ZEP_API_KEY",
+    "venv_root": ".venv-zep",
+    "default_limit": 5,
+    "ingest_settle_seconds": 16.0,
+    "scope": "edges"
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "zep_cloud",
+    "package_name": "zep-cloud",
+    "client_factory": "amb.clients.zep_cloud:create_client",
+    "credential_source": "ZEP_API_KEY",
+    "package_version": "official-zep-cloud-graph"
+  },
+  "claim_boundary": "nonclaimable_until_fresh_zep_cloud_api_execution_with_credentials_and_public_artifacts"
+}

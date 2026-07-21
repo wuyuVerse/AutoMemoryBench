@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amst-bench.local/schema/benchmark.schema.json",
+  "title": "AutoMemoryBench Benchmark",
+  "type": "object",
+  "required": ["schema_version", "benchmark_id", "name", "cases"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["0.1.0", "1.0.0"]
+    },
+    "benchmark_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string"},
+    "cases": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": ["case_id", "domain", "sessions", "gold_memory_units", "queries"],
+      "properties": {
+        "case_id": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "scenario_id": {"type": ["string", "null"]},
+        "scenario": {"$ref": "#/$defs/scenario"},
+        "sessions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/session"}
+        },
+        "events": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/event"}
+        },
+        "event_edges": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/event_edge"}
+        },
+        "gold_memory_units": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/memory"}
+        },
+        "state_contracts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/state_contract"}
+        },
+        "queries": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/query"}
+        },
+        "difficulty": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["scenario_id", "domain"],
+      "properties": {
+        "scenario_id": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "actors": {"type": "array", "items": {"type": "string"}},
+        "groups": {"type": "array", "items": {"type": "string"}},
+        "tools": {"type": "array", "items": {"type": "string"}},
+        "time_span": {
+          "type": ["object", "null"],
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"type": "string", "minLength": 1},
+            "end": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": true
+        },
+        "memory_policy": {"type": "object"},
+        "difficulty": {"type": "object"},
+        "generation_seed": {"type": ["integer", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "session": {
+      "type": "object",
+      "required": ["session_id", "turns"],
+      "properties": {
+        "session_id": {"type": "string", "minLength": 1},
+        "timestamp": {"type": ["string", "null"]},
+        "turns": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/turn"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "turn": {
+      "type": "object",
+      "required": ["turn_id", "role", "content"],
+      "properties": {
+        "turn_id": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1},
+        "content": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "event": {
+      "type": "object",
+      "required": ["event_id", "event_type", "timestamp", "subject", "predicate", "object"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "event_type": {"type": "string", "minLength": 1},
+        "timestamp": {"type": "string", "minLength": 1},
+        "subject": {"type": "string"},
+        "predicate": {"type": "string"},
+        "object": {"type": "string"},
+        "source_turn_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "attributes": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "event_edge": {
+      "type": "object",
+      "required": ["source_event_id", "target_event_id", "edge_type"],
+      "properties": {
+        "source_event_id": {"type": "string", "minLength": 1},
+        "target_event_id": {"type": "string", "minLength": 1},
+        "edge_type": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "memory": {
+      "type": "object",
+      "required": ["memory_id", "type", "content", "source_turn_ids", "should_store", "privacy_level"],
+      "properties": {
+        "memory_id": {"type": "string", "minLength": 1},
+        "type": {"type": "string", "minLength": 1},
+        "memory_type": {"type": ["string", "null"]},
+        "scenario_id": {"type": ["string", "null"]},
+        "content": {"type": "string"},
+        "canonical_form": {"type": "object"},
+        "source_turn_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "source_event_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "source_trace_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "valid_from": {"type": ["string", "null"]},
+        "valid_until": {"type": ["string", "null"]},
+        "status": {"type": "string"},
+        "importance": {"type": ["integer", "null"], "minimum": 1, "maximum": 5},
+        "confidence": {"type": ["number", "null"], "minimum": 0.0, "maximum": 1.0},
+        "should_store": {"type": "boolean"},
+        "should_write": {"type": ["boolean", "null"]},
+        "should_delete": {"type": "boolean"},
+        "privacy_level": {"type": "string"},
+        "sensitivity": {"type": ["string", "null"]},
+        "authorization_scope": {"type": "string"},
+        "should_retrieve_for": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "should_not_retrieve_for": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "update_of": {"type": ["string", "null"]},
+        "invalidates": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "forget_policy": {"type": ["string", "null"]},
+        "expected_use": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "state_contract": {
+      "type": "object",
+      "required": ["state_contract_id", "timestamp"],
+      "properties": {
+        "state_contract_id": {"type": "string", "minLength": 1},
+        "timestamp": {"type": "string", "minLength": 1},
+        "scenario_id": {"type": ["string", "null"]},
+        "active_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "inactive_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "deleted_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "forbidden_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "superseded_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "restricted_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "required_governance_rules": {"type": "array", "items": {"type": "string"}},
+        "transitions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/state_transition"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "state_transition": {
+      "type": "object",
+      "required": ["from_memory_id", "to_memory_id", "transition_type", "trigger_event_id"],
+      "properties": {
+        "from_memory_id": {"type": "string", "minLength": 1},
+        "to_memory_id": {"type": "string", "minLength": 1},
+        "transition_type": {"type": "string", "minLength": 1},
+        "trigger_event_id": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "query": {
+      "type": "object",
+      "required": ["query_id", "prompt", "task_type", "requires_memory", "gold_memory_ids", "expected_behavior"],
+      "properties": {
+        "query_id": {"type": "string", "minLength": 1},
+        "timestamp": {"type": ["string", "null"]},
+        "prompt": {"type": "string"},
+        "task_type": {"type": "string", "minLength": 1},
+        "probe_type": {"type": ["string", "null"]},
+        "scoring_rule": {"type": ["string", "null"]},
+        "requires_memory": {"type": "boolean"},
+        "gold_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "state_contract_id": {"type": ["string", "null"]},
+        "forbidden_memory_ids": {"type": "array", "items": {"type": "string"}},
+        "counterfactual_group_id": {"type": ["string", "null"]},
+        "memory_dependency": {"type": "string"},
+        "difficulty": {"type": "object"},
+        "expected_behavior": {"$ref": "#/$defs/expected_behavior"}
+      },
+      "additionalProperties": true
+    },
+    "expected_behavior": {
+      "type": "object",
+      "properties": {
+        "must_include": {"type": "array", "items": {"type": "string"}},
+        "must_not_include": {"type": "array", "items": {"type": "string"}},
+        "should_refuse": {"type": "boolean"},
+        "behavior_type": {"type": "string"},
+        "tool_name": {"type": ["string", "null"]},
+        "parameters": {"type": "object"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

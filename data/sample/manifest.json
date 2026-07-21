@@ -1,0 +1,29 @@
+{
+  "benchmark_id": "amst-sample-v1",
+  "schema_version": "1.0.0",
+  "package_type": "sample",
+  "visibility": {
+    "audit_subset": "public"
+  },
+  "included_splits": [
+    "audit_subset"
+  ],
+  "split_files": {
+    "audit_subset": {
+      "personal_assistant": "shards/personal_assistant.json",
+      "education_tutoring": "shards/education_tutoring.json",
+      "customer_support": "shards/customer_support.json",
+      "devops_workflow": "shards/devops_workflow.json",
+      "research_assistant": "shards/research_assistant.json",
+      "coding_agent": "shards/coding_agent.json",
+      "multi_party_collaboration": "shards/multi_party_collaboration.json",
+      "office_collaboration": "shards/office_collaboration.json"
+    }
+  },
+  "split_reports": {
+    "audit_subset": {
+      "num_cases": 40,
+      "num_queries": 840
+    }
+  }
+}

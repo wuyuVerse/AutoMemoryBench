@@ -1,0 +1,24 @@
+{
+ "provider": "txtai",
+ "system_id": "txtai_official",
+ "system_version": "txtai-inprocess",
+ "client_factory": "amb.clients.txtai:create_client",
+ "client_kwargs": {
+  "venv_root": ".venv-txtai",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_base_url": "https://api.siliconflow.cn/v1",
+  "embedding_api_key_env": "OPENAI_API_KEY",
+  "embedding_dims": 1024,
+  "default_limit": 5
+ },
+ "top_k": 5,
+ "execution_mode": "real_system",
+ "real_system_attestation": {
+  "provider": "txtai",
+  "package_name": "txtai",
+  "package_version": "9.11.0",
+  "client_factory": "amb.clients.txtai:create_client",
+  "credential_source": "OPENAI_API_KEY"
+ },
+ "claim_boundary": "nonclaimable_until_fresh_txtai_execution_with_public_artifacts"
+}

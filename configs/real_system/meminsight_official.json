@@ -1,0 +1,20 @@
+{
+  "provider": "meminsight",
+  "system_id": "meminsight_official_source",
+  "system_version": "MemInsight-local-source-12c6bcb",
+  "client_factory": "amb.clients.meminsight:create_client",
+  "client_kwargs": {
+    "source_root": "related_work/repos/MemInsight",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "meminsight",
+    "package_name": "MemInsight",
+    "package_version": "local-source-12c6bcb",
+    "client_factory": "amb.clients.meminsight:create_client",
+    "credential_source": "AWS_BEDROCK_PROFILE_OR_ENV_ONLY"
+  },
+  "claim_boundary": "Official Amazon Science MemInsight local-source adapter config only; historical meminsight_paper_proxy scores remain diagnostic and are not official/live SOTA. Not claimable until official dependencies, Bedrock credentials, smoke/public_dev/public_test reports, and accepted return packet exist."
+}

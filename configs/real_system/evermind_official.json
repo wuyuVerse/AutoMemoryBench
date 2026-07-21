@@ -1,0 +1,7 @@
+{
+  "provider": "evermind", "system_id": "evermind_official_source", "system_version": "evermind-0.1.0",
+  "client_factory": "amb.clients.evermind:create_client", "client_kwargs": { "default_limit": 5 },
+  "top_k": 5, "execution_mode": "real_system",
+  "real_system_attestation": {"provider":"evermind","package_name":"evermind","package_version":"0.1.0","client_factory":"amb.clients.evermind:create_client","credential_source":"OPENAI_COMPATIBLE_ENV_ONLY"},
+  "claim_boundary": "Official evermind (pip) langchain-based memory; ChatOpenAI=matrix model + OpenAIEmbeddings=bge-m3(siliconflow); in-memory vector store, semantic-graph disabled (vector/episodic only)."
+}

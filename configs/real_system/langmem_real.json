@@ -1,0 +1,19 @@
+{
+  "provider": "langmem",
+  "system_id": "langmem_real",
+  "system_version": "template",
+  "client_factory": "amb.clients.langmem:create_client",
+  "client_kwargs": {
+    "venv_root": ".venv-langmem",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "langmem",
+    "package_name": "langmem",
+    "package_version": "template",
+    "client_factory": "amb.clients.langmem:create_client",
+    "credential_source": "OPENAI_API_KEY"
+  }
+}

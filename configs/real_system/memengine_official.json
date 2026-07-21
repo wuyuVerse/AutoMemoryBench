@@ -1,0 +1,24 @@
+{
+ "provider": "memengine",
+ "system_id": "memengine_official",
+ "system_version": "memengine-ltmemory-inprocess",
+ "client_factory": "amb.clients.memengine:create_client",
+ "client_kwargs": {
+  "venv_root": ".venv-memengine",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_base_url": "https://api.siliconflow.cn/v1",
+  "embedding_api_key_env": "OPENAI_API_KEY",
+  "embedding_dims": 1024,
+  "default_limit": 5
+ },
+ "top_k": 5,
+ "execution_mode": "real_system",
+ "real_system_attestation": {
+  "provider": "memengine",
+  "package_name": "memengine",
+  "package_version": "1.1.0",
+  "client_factory": "amb.clients.memengine:create_client",
+  "credential_source": "OPENAI_API_KEY"
+ },
+ "claim_boundary": "nonclaimable_until_fresh_memengine_execution_with_public_artifacts"
+}

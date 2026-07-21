@@ -1,0 +1,20 @@
+{
+  "provider": "simplemem",
+  "system_id": "simplemem_official_source",
+  "system_version": "SimpleMem-local-source-60a48e8",
+  "client_factory": "amb.clients.simplemem:create_client",
+  "client_kwargs": {
+    "source_root": "related_work/repos/SimpleMem",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "simplemem",
+    "package_name": "SimpleMem",
+    "package_version": "local-source-60a48e8",
+    "client_factory": "amb.clients.simplemem:create_client",
+    "credential_source": "OPENAI_COMPATIBLE_ENV_ONLY"
+  },
+  "claim_boundary": "Official aiming-lab/SimpleMem (arXiv 2601.02553) local-source adapter; LLM via any OpenAI-compatible endpoint, default keyword-retrieval config (k_sem=0), tiny ST embedding for init only."
+}

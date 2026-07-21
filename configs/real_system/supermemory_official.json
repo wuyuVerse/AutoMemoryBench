@@ -1,0 +1,22 @@
+{
+  "provider": "supermemory",
+  "system_id": "supermemory_official",
+  "system_version": "official-rest-api-env-only",
+  "client_factory": "amb.clients.supermemory:create_client",
+  "client_kwargs": {
+    "api_key_env": "SUPERMEMORY_API_KEY",
+    "base_url": "https://api.supermemory.ai",
+    "default_limit": 5,
+    "search_api_version": "v3"
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "supermemory",
+    "package_name": "supermemory-rest-api",
+    "package_version": "official-rest-api-env-only",
+    "client_factory": "amb.clients.supermemory:create_client",
+    "credential_source": "SUPERMEMORY_API_KEY"
+  },
+  "claim_boundary": "nonclaimable_until_fresh_supermemory_api_execution_with_credentials_and_public_artifacts"
+}

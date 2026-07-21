@@ -1,0 +1,25 @@
+{
+  "provider": "a_mem_agentic_memory",
+  "system_id": "a_mem_agentic_memory_official_source",
+  "system_version": "A-MEM-local-source",
+  "client_factory": "amb.clients.a_mem_agentic_memory:create_client",
+  "client_kwargs": {
+    "source_root": "related_work/repos/A-mem-sys",
+    "venv_root": ".venv-amem",
+    "model_name": "all-MiniLM-L6-v2",
+    "llm_backend": "ollama",
+    "llm_model": "llama2",
+    "default_limit": 5,
+    "require_llm_healthcheck": true
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "a_mem_agentic_memory",
+    "package_name": "agentic_memory",
+    "package_version": "local-source",
+    "client_factory": "amb.clients.a_mem_agentic_memory:create_client",
+    "credential_source": "NONE"
+  },
+  "claim_boundary": "Official local source adapter config only; not claimable until dependencies, smoke/public_dev/public_test reports, and accepted return packet exist."
+}

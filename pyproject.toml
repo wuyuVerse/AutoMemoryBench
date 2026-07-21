@@ -1,0 +1,76 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "automemorybench"
+version = "0.1.0"
+description = "AutoMemoryBench: state-contract evaluation for auditable agent memory."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+authors = [{name = "AutoMemoryBench Contributors"}]
+keywords = ["benchmark", "llm-agents", "memory", "evaluation", "state-contract"]
+
+# The core benchmark + deterministic baselines + evaluation/scoring rely only on
+# the Python standard library plus httpx (for OpenAI-compatible model calls).
+dependencies = [
+  "httpx>=0.24",
+]
+
+[project.optional-dependencies]
+# Backbone model calls through an OpenAI-compatible endpoint.
+llm = ["openai>=1.0"]
+
+# --- Memory-system adapters (install only what you evaluate) ---------------
+# Each extra pulls the third-party package for that memory system. Versions are
+# the ones used in the paper; adjust to match your environment.
+mem0 = ["mem0ai"]
+letta = ["letta"]
+langmem = ["langmem", "langgraph"]
+zep = ["zep-cloud"]
+graphiti = ["graphiti-core"]
+memoryos = ["memoryos"]
+memos = ["MemoryOS"]
+a-mem = ["agentic-memory"]
+lightrag = ["lightrag-hku"]
+lightmem = ["lightmem"]
+memoripy = ["memoripy"]
+meminsight = ["meminsight"]
+supermemory = ["supermemory"]
+txtai = ["txtai"]
+reme = ["reme"]
+evermind = ["evermind", "langchain-openai"]
+memengine = ["memengine", "torch", "numpy"]
+synap = ["synap"]
+simplemem = ["huggingface_hub", "sentence-transformers"]
+nanographrag = ["nano-graphrag"]
+cognee = ["cognee"]
+memobase = ["memobase"]
+mirix = ["mirix"]
+hindsight = ["hindsight"]
+
+# Agent/CLI framework adapters used as controls in the paper.
+frameworks = ["langgraph", "autogen-agentchat", "crewai", "llama-index"]
+
+# Everything (large; for full-matrix reproduction only).
+all = [
+  "openai>=1.0", "mem0ai", "letta", "langmem", "langgraph", "zep-cloud",
+  "graphiti-core", "lightrag-hku", "memoripy", "txtai",
+]
+
+dev = ["pytest>=7", "ruff"]
+
+[project.scripts]
+amb = "amb.cli:main"
+automemorybench = "amb.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/OWNER/AutoMemoryBench"
+Repository = "https://github.com/OWNER/AutoMemoryBench"
+
+[tool.setuptools.packages.find]
+include = ["amb*"]
+
+[tool.setuptools.package-data]
+amb = ["**/*.json", "**/*.md"]

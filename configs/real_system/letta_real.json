@@ -1,0 +1,19 @@
+{
+  "provider": "letta",
+  "system_id": "letta_real",
+  "system_version": "template",
+  "client_factory": "amb.clients.letta:create_client",
+  "client_kwargs": {
+    "venv_root": ".venv-letta",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "letta",
+    "package_name": "letta",
+    "package_version": "template",
+    "client_factory": "amb.clients.letta:create_client",
+    "credential_source": "LETTA_API_KEY"
+  }
+}

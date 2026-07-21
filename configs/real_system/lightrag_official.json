@@ -1,0 +1,27 @@
+{
+  "provider": "lightrag",
+  "system_id": "lightrag_official",
+  "system_version": "lightrag-hku-1.5.4-inprocess",
+  "client_factory": "amb.clients.lightrag:create_client",
+  "client_kwargs": {
+    "venv_root": ".venv-lightrag",
+    "model": "zai-org/GLM-5.2",
+    "base_url": "https://api.siliconflow.cn/v1",
+    "api_key_env": "OPENAI_API_KEY",
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_base_url": "https://api.siliconflow.cn/v1",
+    "embedding_api_key_env": "OPENAI_API_KEY",
+    "embedding_dims": 1024,
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "lightrag",
+    "package_name": "lightrag-hku",
+    "package_version": "1.5.4",
+    "client_factory": "amb.clients.lightrag:create_client",
+    "credential_source": "OPENAI_API_KEY"
+  },
+  "claim_boundary": "nonclaimable_until_fresh_lightrag_execution_with_public_artifacts"
+}

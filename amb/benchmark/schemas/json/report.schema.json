@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amst-bench.local/schema/report.schema.json",
+  "title": "AutoMemoryBench Evaluation Report",
+  "type": "object",
+  "required": ["schema_version", "benchmark_id", "system_id", "aggregate", "queries"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["0.1.0", "1.0.0"]
+    },
+    "benchmark_id": {"type": "string", "minLength": 1},
+    "system_id": {"type": "string", "minLength": 1},
+    "aggregate": {"type": "object"},
+    "counterfactual": {"type": "object"},
+    "by_task_type": {"type": "object"},
+    "by_probe_type": {"type": "object"},
+    "by_domain": {"type": "object"},
+    "by_difficulty": {"type": "object"},
+    "by_memory_requirement": {"type": "object"},
+    "queries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/query_report"}
+    },
+    "missing_predictions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "extra_predictions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "duplicate_predictions": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "query_report": {
+      "type": "object",
+      "required": ["query_id", "case_id", "domain", "task_type", "probe_type", "scores", "diagnostics"],
+      "properties": {
+        "query_id": {"type": "string", "minLength": 1},
+        "case_id": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "task_type": {"type": "string", "minLength": 1},
+        "probe_type": {"type": "string", "minLength": 1},
+        "memory_requirement": {"type": "string"},
+        "counterfactual_group_id": {"type": ["string", "null"]},
+        "difficulty_level": {"type": "string"},
+        "difficulty": {"type": "object"},
+        "scores": {"type": "object"},
+        "diagnostics": {"type": "object"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

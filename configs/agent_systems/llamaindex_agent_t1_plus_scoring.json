@@ -1,0 +1,20 @@
+{
+  "schema_version": "amst-agent-system-config-v1",
+  "provider": "llamaindex_agent",
+  "system_id": "llamaindex_agent_t1_plus_scoring",
+  "system_version": "planned_t1_plus_skeleton",
+  "execution_mode": "integration_smoke",
+  "agent_framework": "llamaindex_agent",
+  "agent_runtime": "python",
+  "orchestration_mode": "single_agent",
+  "memory_backend": "built_in_memory",
+  "model_backend": "not_instantiated_until_dependency_lock",
+  "tool_runtime_id": "automemorybench_tool_runtime_v1",
+  "scoring_policy": {
+    "retrieval_k": 8,
+    "task_judge_plugin_id": "deterministic_expected_behavior_v1",
+    "task_judge_rule_version": "expected_behavior_scores_v1"
+  },
+  "loader": "amb.benchmark.evaluation.framework_adapters.llamaindex_agent:create_adapter",
+  "loader_kwargs": {}
+}

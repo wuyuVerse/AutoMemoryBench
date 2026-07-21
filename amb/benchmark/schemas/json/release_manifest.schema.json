@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amst-bench.local/schema/release_manifest.schema.json",
+  "title": "AutoMemoryBench Release Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "benchmark_id",
+    "build_timestamp",
+    "builder",
+    "release_status",
+    "split_strategy",
+    "release_config",
+    "visibility",
+    "audit_plan",
+    "split_files",
+    "split_artifacts",
+    "split_reports",
+    "group_assignments"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "package_type": {"const": "private_leaderboard_package"}
+        },
+        "required": ["package_type"]
+      },
+      "then": {
+        "properties": {
+          "split_strategy": {
+            "type": "string",
+            "enum": ["quarterly_hidden_refresh"]
+          },
+          "release_config": {
+            "type": "object",
+            "required": ["seed", "dev_fraction", "audit_fraction", "hidden_fraction", "num_hidden_scenarios"],
+            "properties": {
+              "seed": {"type": "integer"},
+              "dev_fraction": {"const": 0.0},
+              "audit_fraction": {"const": 0.0},
+              "hidden_fraction": {"const": 1.0},
+              "num_hidden_scenarios": {"type": "integer", "minimum": 1},
+              "domain_stratified": {"type": "boolean"},
+              "min_groups_per_domain_for_stratification": {"type": "integer", "minimum": 1}
+            },
+            "additionalProperties": true
+          },
+          "visibility": {
+            "type": "object",
+            "required": ["public_dev", "public_test", "audit_subset", "hidden_test"],
+            "properties": {
+              "public_dev": {"const": "not_packaged"},
+              "public_test": {"const": "not_packaged"},
+              "audit_subset": {"const": "not_packaged"},
+              "hidden_test": {"const": "private_leaderboard_only"}
+            },
+            "additionalProperties": false
+          },
+          "audit_plan": {
+            "type": "object",
+            "required": ["audit_required", "audit_fraction_target", "human_audit_status", "audit_template_file"],
+            "properties": {
+              "audit_required": {"const": false},
+              "audit_fraction_target": {"const": 0.0},
+              "human_audit_status": {"const": "not_applicable"},
+              "audit_template_file": {"type": "null"},
+              "audit_template_files": {"type": "object"},
+              "audit_annotations_file": {"type": "null"},
+              "agreement_metrics": {"type": "null"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": ["quarterly_hidden_refresh"]
+      },
+      "else": {
+        "properties": {
+          "split_strategy": {
+            "type": "string",
+            "enum": ["global_group_preserving", "domain_stratified_group_preserving"]
+          },
+          "release_config": {
+            "type": "object",
+            "required": ["seed", "dev_fraction", "audit_fraction", "hidden_fraction"],
+            "properties": {
+              "seed": {"type": "integer"},
+              "dev_fraction": {"type": "number", "minimum": 0, "exclusiveMaximum": 1},
+              "audit_fraction": {"type": "number", "minimum": 0, "exclusiveMaximum": 1},
+              "hidden_fraction": {"type": "number", "minimum": 0, "exclusiveMaximum": 1},
+              "domain_stratified": {"type": "boolean"},
+              "min_groups_per_domain_for_stratification": {"type": "integer", "minimum": 1}
+            },
+            "additionalProperties": true
+          },
+          "visibility": {
+            "type": "object",
+            "required": ["public_dev", "public_test", "audit_subset", "hidden_test"],
+            "properties": {
+              "public_dev": {"const": "public"},
+              "public_test": {"const": "public"},
+              "audit_subset": {"type": "string"},
+              "hidden_test": {"const": "private_leaderboard_only"}
+            },
+            "additionalProperties": false
+          },
+          "audit_plan": {
+            "type": "object",
+            "required": ["audit_required", "audit_fraction_target", "human_audit_status", "audit_template_file"],
+            "properties": {
+              "audit_required": {"type": "boolean"},
+              "audit_fraction_target": {"type": "number"},
+              "human_audit_status": {"type": "string"},
+              "audit_template_file": {"type": ["string", "null"]},
+              "audit_template_files": {"type": "object"},
+              "audit_annotations_file": {"type": ["string", "null"]},
+              "agreement_metrics": {"type": ["object", "null"]}
+            },
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["0.1.0", "1.0.0"]
+    },
+    "benchmark_id": {"type": "string", "minLength": 1},
+    "build_timestamp": {"type": "string", "minLength": 1},
+    "builder": {
+      "type": "object",
+      "required": ["name", "schema_version"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "schema_version": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "release_status": {
+      "type": "string",
+      "enum": ["generated_unreviewed", "audit_pending", "audit_passed", "release_candidate"]
+    },
+    "split_strategy": {"type": "string"},
+    "release_config": {
+      "type": "object",
+      "properties": {
+        "seed": {"type": "integer"},
+        "dev_fraction": {"type": "number"},
+        "audit_fraction": {"type": "number"},
+        "hidden_fraction": {"type": "number"},
+        "num_hidden_scenarios": {"type": "integer", "minimum": 1},
+        "domain_stratified": {"type": "boolean"},
+        "min_groups_per_domain_for_stratification": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": true
+    },
+    "build_metadata": {"type": "object"},
+    "package_type": {
+      "type": "string",
+      "enum": ["public_release_export", "private_leaderboard_package"]
+    },
+    "included_splits": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "withheld_splits": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "object",
+          "required": ["visibility", "artifact_status", "split_report"],
+          "properties": {
+            "visibility": {"type": "string"},
+            "reason": {"type": "string"},
+            "artifact_status": {"const": "withheld"},
+            "report_source": {"type": "string"},
+            "split_report": {"$ref": "#/$defs/split_report"},
+            "release_plan": {"type": "object"},
+            "num_group_assignments": {"type": "integer", "minimum": 0},
+            "group_counts_by_domain": {"type": "object"}
+          },
+          "additionalProperties": true
+        }
+      }
+    },
+    "exported_from_manifest": {
+      "type": "object",
+      "properties": {
+        "benchmark_id": {"type": "string"},
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "build_timestamp": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "source_benchmark": {
+      "type": ["object", "null"],
+      "properties": {
+        "path": {"type": "string"},
+        "exists": {"type": "boolean"},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "visibility": {"type": "object"},
+    "audit_plan": {"type": "object"},
+    "split_files": {"type": "object"},
+    "split_artifacts": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            {"$ref": "#/$defs/artifact"},
+            {
+              "type": "object",
+              "patternProperties": {
+                ".*": {"$ref": "#/$defs/artifact"}
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      }
+    },
+    "split_reports": {
+      "type": "object",
+      "required": ["public_dev", "public_test", "audit_subset", "hidden_test"],
+      "properties": {
+        "public_dev": {"$ref": "#/$defs/split_report"},
+        "public_test": {"$ref": "#/$defs/split_report"},
+        "audit_subset": {"$ref": "#/$defs/split_report"},
+        "hidden_test": {"$ref": "#/$defs/split_report"}
+      },
+      "additionalProperties": false
+    },
+    "group_assignments": {"type": "object"}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": true
+    },
+    "split_report": {
+      "type": "object",
+      "required": [
+        "num_cases",
+        "num_queries",
+        "num_memories",
+        "num_events",
+        "num_state_contracts",
+        "domains",
+        "probe_types",
+        "construction_gates_passed",
+        "data_quality_gates_passed"
+      ],
+      "properties": {
+        "num_cases": {"type": "integer", "minimum": 0},
+        "num_queries": {"type": "integer", "minimum": 0},
+        "num_memories": {"type": "integer", "minimum": 0},
+        "num_events": {"type": "integer", "minimum": 0},
+        "num_state_contracts": {"type": "integer", "minimum": 0},
+        "domains": {"type": "object"},
+        "probe_types": {"type": "object"},
+        "counterfactual_edits": {"type": "object"},
+        "renderer_coverage": {"type": "object"},
+        "quality_gates_passed": {"type": "boolean"},
+        "construction_gates_passed": {"type": "boolean"},
+        "data_quality_gates_passed": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

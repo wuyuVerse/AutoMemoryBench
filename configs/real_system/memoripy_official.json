@@ -1,0 +1,27 @@
+{
+  "provider": "memoripy",
+  "system_id": "memoripy_official",
+  "system_version": "memoripy-lib-openai-compat",
+  "client_factory": "amb.clients.memoripy:create_client",
+  "client_kwargs": {
+    "venv_root": ".venv-memoripy",
+    "model": "zai-org/GLM-5.2",
+    "base_url": "https://api.siliconflow.cn/v1",
+    "api_key_env": "OPENAI_API_KEY",
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_base_url": "https://api.siliconflow.cn/v1",
+    "embedding_api_key_env": "OPENAI_API_KEY",
+    "embedding_dims": 1024,
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "memoripy",
+    "package_name": "memoripy",
+    "package_version": "lib-openai-compat",
+    "client_factory": "amb.clients.memoripy:create_client",
+    "credential_source": "OPENAI_API_KEY"
+  },
+  "claim_boundary": "nonclaimable_until_fresh_memoripy_execution_with_public_artifacts"
+}

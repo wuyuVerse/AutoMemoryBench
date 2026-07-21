@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://amst-bench.local/schema/prediction.schema.json",
+  "title": "AutoMemoryBench Prediction Set",
+  "type": "object",
+  "required": ["schema_version", "system_id", "predictions"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["0.1.0", "1.0.0"]
+    },
+    "system_id": {"type": "string", "minLength": 1},
+    "predictions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/query_prediction"}
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "query_prediction": {
+      "type": "object",
+      "required": ["query_id", "memory_needed", "activated_memory_ids", "response"],
+      "properties": {
+        "query_id": {"type": "string", "minLength": 1},
+        "memory_needed": {"type": ["boolean", "null"]},
+        "activated_memory_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "response": {"type": "string"},
+        "compression_summary": {"type": ["string", "null"]},
+        "tool_name": {"type": ["string", "null"]},
+        "parameters": {"type": "object"},
+        "memory_operations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/memory_operation"}
+        },
+        "cost": {"$ref": "#/$defs/cost"}
+      },
+      "additionalProperties": true
+    },
+    "memory_operation": {
+      "type": "object",
+      "required": ["operation"],
+      "properties": {
+        "operation": {"type": "string", "enum": ["write", "update", "delete", "skip"]},
+        "memory_id": {"type": ["string", "null"]},
+        "content": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "input_tokens": {"type": ["number", "null"], "minimum": 0},
+        "output_tokens": {"type": ["number", "null"], "minimum": 0},
+        "latency_ms": {"type": ["number", "null"], "minimum": 0},
+        "retrieval_latency_ms": {"type": ["number", "null"], "minimum": 0},
+        "storage_bytes": {"type": ["number", "null"], "minimum": 0}
+      },
+      "additionalProperties": true
+    }
+  }
+}

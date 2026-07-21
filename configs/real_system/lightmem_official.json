@@ -1,0 +1,78 @@
+{
+  "provider": "lightmem",
+  "system_id": "lightmem_official_source",
+  "system_version": "LightMem-local-source",
+  "client_factory": "amb.clients.lightmem:create_client",
+  "client_kwargs": {
+    "source_root": "related_work/repos/LightMem",
+    "venv_root": ".venv-lightmem",
+    "config": {
+      "pre_compress": true,
+      "pre_compressor": {
+        "model_name": "llmlingua-2",
+        "configs": {
+          "llmlingua_config": {
+            "model_name": "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+            "device_map": "cpu",
+            "use_llmlingua2": true
+          },
+          "compress_config": {
+            "rate": 0.8
+          }
+        }
+      },
+      "topic_segment": true,
+      "precomp_topic_shared": true,
+      "topic_segmenter": {
+        "model_name": "llmlingua-2"
+      },
+      "memory_manager": {
+        "model_name": "transformers",
+        "configs": {
+          "model": "Qwen/Qwen2.5-0.5B-Instruct",
+          "max_tokens": 320,
+          "temperature": 0.0,
+          "top_p": 1.0,
+          "top_k": 1,
+          "num_gpu": 0
+        }
+      },
+      "metadata_generate": true,
+      "text_summary": true,
+      "amst_extraction_prompt": "Extract benchmark memory facts. Each input line looks like: [time, weekday] 0.user: Delta project uses Python 3.10. The source_id is ONLY the small integer after the closing bracket and before the dot; in the example it is 0, not the timestamp. For EVERY non-empty input line, output at least one JSON item. Preserve exact names, values, commands, dates, constraints, negations, and scope. Use only source_id values that appear in the input lines. Return ONLY valid JSON, no markdown, no prose. Example with two input lines must produce two items: {\"data\":[{\"source_id\":0,\"fact\":\"Delta project uses Python 3.10.\"},{\"source_id\":1,\"fact\":\"Delta test command is uv run pytest tests/unit.\"}]}. If no factual content exists, return {\"data\":[]}.",
+      "index_strategy": "embedding",
+      "text_embedder": {
+        "model_name": "huggingface",
+        "configs": {
+          "model": "all-MiniLM-L6-v2",
+          "embedding_dims": 384,
+          "model_kwargs": {
+            "device": "cpu"
+          }
+        }
+      },
+      "retrieve_strategy": "embedding",
+      "embedding_retriever": {
+        "model_name": "qdrant",
+        "configs": {
+          "collection_name": "lightmem_amst",
+          "embedding_model_dims": 384,
+          "path": "reports/runtime_state/lightmem/qdrant/default",
+          "on_disk": false
+        }
+      },
+      "update": "offline"
+    },
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "lightmem",
+    "package_name": "lightmem",
+    "package_version": "local-source",
+    "client_factory": "amb.clients.lightmem:create_client",
+    "credential_source": "NONE"
+  },
+  "claim_boundary": "Official local source adapter config only; not claimable until dependencies, smoke/public_dev/public_test reports, and accepted return packet exist."
+}

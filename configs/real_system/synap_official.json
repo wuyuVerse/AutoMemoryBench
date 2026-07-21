@@ -1,0 +1,14 @@
+{
+  "provider": "synap",
+  "system_id": "synap_official_source",
+  "system_version": "synap-0.1.0",
+  "client_factory": "amb.clients.synap:create_client",
+  "client_kwargs": { "default_limit": 5 },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "synap", "package_name": "synap", "package_version": "0.1.0",
+    "client_factory": "amb.clients.synap:create_client", "credential_source": "OPENAI_COMPATIBLE_ENV_ONLY"
+  },
+  "claim_boundary": "Official synap (github.com/veeeceee/synap) library; pluggable LLMProvider=matrix model + EmbeddingProvider=bge-m3(siliconflow); in-memory SemanticMemory graph."
+}

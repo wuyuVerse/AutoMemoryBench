@@ -1,0 +1,34 @@
+{
+  "provider": "memorybank_or_memoryos",
+  "system_id": "memoryos_official_source",
+  "system_version": "BAI-LAB-MemoryOS-local-source",
+  "client_factory": "amb.clients.memorybank_or_memoryos:create_client",
+  "client_kwargs": {
+    "source_root": "related_work/repos/MemoryOS/memoryos-pypi",
+    "venv_root": ".venv-memoryos",
+    "extra_venv_roots": [
+      ".venv-langmem"
+    ],
+    "api_key_env": "MEMORYOS_OPENAI_API_KEY",
+    "fallback_envs": [
+      "OPENAI_API_KEY",
+      "AMST_OPENAI_COMPAT_API_KEY"
+    ],
+    "base_url_env": "MEMORYOS_OPENAI_BASE_URL",
+    "user_id": "amst_memoryos_user",
+    "assistant_id": "amst_memoryos_assistant",
+    "llm_model": "gpt-4o-mini",
+    "embedding_model_name": "all-MiniLM-L6-v2",
+    "default_limit": 5
+  },
+  "top_k": 5,
+  "execution_mode": "real_system",
+  "real_system_attestation": {
+    "provider": "memorybank_or_memoryos",
+    "package_name": "MemoryOS",
+    "package_version": "local-source",
+    "client_factory": "amb.clients.memorybank_or_memoryos:create_client",
+    "credential_source": "MEMORYOS_OPENAI_API_KEY"
+  },
+  "claim_boundary": "Official BAI-LAB MemoryOS local-source adapter config only; not claimable until dependencies, credentials, smoke/public_dev/public_test reports, and accepted return packet exist. This does not claim coverage of the separate AAAI MemoryBank implementation."
+}

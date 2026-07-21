@@ -1,0 +1,22 @@
+{
+  "_doc": "Backbone model axis for AutoMemoryBench. Every entry is an OpenAI-compatible chat endpoint. Endpoints are given as environment-variable placeholders (${OPENAI_BASE_URL}) and resolved at load time; set OPENAI_BASE_URL and OPENAI_API_KEY (see .env.example) to point at any provider that serves the model — the official API, a self-hosted vLLM/SGLang server, or an aggregator. Change model_name to whatever your endpoint exposes. No URLs or keys are stored in this file. For a closed frontier model on a different host, override its base_url via a per-model variable (e.g. ${GPT_BASE_URL}) and export that variable.",
+  "_embedding": {
+    "model_name": "BAAI/bge-m3",
+    "base_url": "${EMBEDDING_BASE_URL:-${OPENAI_BASE_URL}}",
+    "key_env": "EMBEDDING_API_KEY",
+    "_note": "Memory systems that need an embedder use this. Any OpenAI-compatible /embeddings endpoint works; bge-m3 is the reference embedder used in the paper. Defaults to OPENAI_BASE_URL if EMBEDDING_BASE_URL is unset."
+  },
+  "models": {
+    "deepseek-v4-pro":   {"model_name": "deepseek-ai/DeepSeek-V4-Pro",   "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "deepseek-v4-flash": {"model_name": "deepseek-ai/DeepSeek-V4-Flash", "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "gpt-5.5":           {"model_name": "gpt-5.5",                        "base_url": "${GPT_BASE_URL:-${OPENAI_BASE_URL}}", "key_env": "OPENAI_API_KEY", "wire": "chat", "notes": "frontier closed model; point GPT_BASE_URL/model_name at your provider"},
+    "claude-sonnet-4-6": {"model_name": "claude-sonnet-4-6",             "base_url": "${CLAUDE_BASE_URL:-${OPENAI_BASE_URL}}", "key_env": "OPENAI_API_KEY", "wire": "chat", "notes": "frontier closed model; use an OpenAI-compatible gateway or set CLAUDE_BASE_URL"},
+    "qwen3.7-max":       {"model_name": "qwen3.7-max",                   "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "qwen3.6-35b":       {"model_name": "Qwen/Qwen3.6-35B-A3B",          "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "glm-5.2":           {"model_name": "zai-org/GLM-5.2",               "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "kimi-k2.7-code":    {"model_name": "moonshotai/Kimi-K2.7",          "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat", "notes": "reasoning model"},
+    "deepseek-v3":       {"model_name": "deepseek-ai/DeepSeek-V3",       "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "qwen2.5-72b":       {"model_name": "Qwen/Qwen2.5-72B-Instruct",     "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"},
+    "glm-4.5-air":       {"model_name": "zai-org/GLM-4.5-Air",           "base_url": "${OPENAI_BASE_URL}", "key_env": "OPENAI_API_KEY", "wire": "chat"}
+  }
+}

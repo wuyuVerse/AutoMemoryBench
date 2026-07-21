@@ -1,0 +1,17 @@
+{
+  "schema_version": "amst-agent-system-config-v1",
+  "provider": "example_blackbox",
+  "system_id": "echo_blackbox_smoke",
+  "system_version": "smoke",
+  "execution_mode": "integration_smoke",
+  "agent_framework": "example_blackbox",
+  "agent_runtime": "python_in_process",
+  "orchestration_mode": "single_agent",
+  "memory_backend": "in_process_observation_counter",
+  "tool_runtime_id": "none",
+  "loader": "amb.benchmark.evaluation.example_agents:create_echo_agent",
+  "loader_kwargs": {
+    "prefix": "echo_blackbox_smoke",
+    "max_observations": 3
+  }
+}
